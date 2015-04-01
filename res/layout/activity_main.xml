@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
+    android:orientation="vertical" >
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:numColumns="1" 
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="1dp"
+        android:layout_weight="1"
+        android:background="#ccc"
+        android:stackFromBottom="true"/>
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:background="#ccc">
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="发送至："/>
+    	<EditText android:id="@+id/numberEditor"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:singleLine="true"
+	        android:inputType="phone"
+	        android:text="10086"/>
+    </LinearLayout>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:background="#ccc">
+	    <EditText android:id="@+id/smsEditor"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:maxLines="5"
+	        android:layout_weight="1"
+	        android:hint="输入信息">
+	        <requestFocus />
+	    </EditText>
+	    <Button android:id="@+id/sendSMSBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom"
+	        android:text="SEND"/>
+	</LinearLayout>
+</LinearLayout>
