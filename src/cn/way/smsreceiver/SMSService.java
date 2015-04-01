@@ -37,7 +37,6 @@ public class SMSService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 	}
-
 	/**
 	 * 服务连接子类。会返回服务对象实例
 	 * @author Wayne
