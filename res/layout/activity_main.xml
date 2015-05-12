@@ -15,7 +15,8 @@
         android:verticalSpacing="1dp"
         android:layout_weight="1"
         android:background="#ccc"
-        android:stackFromBottom="true"/>
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"/>
     <LinearLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"

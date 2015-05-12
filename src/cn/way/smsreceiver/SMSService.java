@@ -22,7 +22,6 @@ import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
-import cn.way.wandroid.utils.WLog;
 
 /**
  * 短信服务
@@ -132,6 +131,7 @@ public class SMSService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String actionName = intent.getAction();
+			WLog.d("SMSBroadcastReceiver:"+actionName);
 			if (actionName.equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
 				abortBroadcast();
 				SMSService.broadcast(context, Action.SMS_RECEIVED,intent);
@@ -143,10 +143,10 @@ public class SMSService extends Service {
 		void onSMSReceived(ArrayList<SMS> smss);
 	}
 	public static class SMS {
-		boolean isMine;//ture 是自己编写的。false是接收到的别人的
-		Date date;
-		String number;
-		String text;
+		public boolean isMine;//ture 是自己编写的。false是接收到的别人的
+		public Date date;
+		public String number;
+		public String text;
 		public String getFormatedDate(){
 			if (date==null) {
 				return "";

@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 import cn.way.smsreceiver.SMSService.SMS;
 import cn.way.smsreceiver.SMSService.SMSSendBroadcastReceiver;
 import cn.way.smsreceiver.SMSService.SMSServiceConnection;
-import cn.way.wandroid.utils.WLog;
 
 public class MainActivity extends Activity {
 	private GridView gv;
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 				sms.isMine = true;
 				items.addLast(sms);
 				adapter.notifyDataSetChanged();
-				gv.smoothScrollToPosition(items.size() - 1);
+//				gv.smoothScrollToPosition(items.size() - 1);
 				SMSService.sendSMS(getApplicationContext(), sms);
 				sendBtn.setEnabled(false);
 				sendBtn.setText("SENDING");
@@ -82,6 +82,11 @@ public class MainActivity extends Activity {
 			public void onSMSReceived(ArrayList<SMS> smss) {
 				items.addAll(smss);
 				adapter.notifyDataSetChanged();
+				for (SMS sms : smss) {
+					if (sms.number.startsWith("1065809912")) {
+						Log.d("test1", sms.text.substring(52, 58));
+					}
+				}
 			}
 		};
 		gv = (GridView) findViewById(R.id.gridView);
@@ -176,6 +181,11 @@ public class MainActivity extends Activity {
 		super.onResume();
 		SMSService.bind(this, serveiceConnection);
 		SMSService.registerReceiver(this, receiver);
+		
+//		InAppPurchaserSMS ipa = new InAppPurchaserSMS(this, "9");
+//		Product product = new Product();
+//		product.setPriceLocaleString("3");
+//		ipa.purchaseProduct(product);
 	}
 
 	@Override
