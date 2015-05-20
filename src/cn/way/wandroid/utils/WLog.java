@@ -1,5 +1,6 @@
-package cn.way.smsreceiver;
+package cn.way.wandroid.utils;
 
+import cn.way.smsreceiver.BuildConfig;
 import android.util.Log;
 
 public class WLog{

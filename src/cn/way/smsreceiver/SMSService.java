@@ -118,6 +118,7 @@ public class SMSService extends Service {
 		return super.onUnbind(intent);
 	}
 
+	private static final String EXTRA_SMS_ID = "smsId";
 	/**
 	 * 发送短信
 	 * 
@@ -130,8 +131,12 @@ public class SMSService extends Service {
 			return;
 		}
 		SmsManager smsManager = SmsManager.getDefault();
+		Intent sendSmsIntent = new Intent(Action.SMS_SENT.toString());
+		sendSmsIntent.putExtra(EXTRA_SMS_ID, sms.id+"");
+//		sendSmsIntent.getExtras().putString("smsId",sms.id+"");
 		PendingIntent sentIntent = PendingIntent.getBroadcast(context, 0,
-				new Intent(Action.SMS_SENT.toString()), 0);
+				sendSmsIntent, 0);
+		
 		PendingIntent deliveryIntent = PendingIntent.getBroadcast(context, 0,
 				new Intent(Action.SMS_DELIVERY.toString()), 0);
 		List<String> messages = smsManager.divideMessage(sms.text);
@@ -195,7 +200,7 @@ public class SMSService extends Service {
 
 	public static abstract class SMSSendBroadcastReceiver extends
 			BroadcastReceiver {
-		public abstract void onSMSSend(boolean success, String message);
+		public abstract void onSMSSend(boolean success,int smsId, String message);
 
 		public abstract void onSMSReceived(ArrayList<SMS> smss);
 
@@ -204,6 +209,18 @@ public class SMSService extends Service {
 			String actionName = intent.getAction();
 			WLog.d("EEEEEEEEEEEEEEEEEEEE" + actionName);
 			if (actionName.equals(Action.SMS_SENT.toString())) {
+//				int smsId = intent.getIntExtra(EXTRA_SMS_ID,0);
+				String smsIdStr = intent.getStringExtra(EXTRA_SMS_ID);
+				int smsId = 0;
+				if (smsIdStr!=null) {
+//					WLog.d("Action.SMS_SENT:::::" + smsIdStr);
+					try {
+						smsId = Integer.valueOf(smsIdStr);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
+				}
+				WLog.d("Action.SMS_SENT:::::" + smsId);
 				String message = null;
 				boolean success = false;
 				switch (getResultCode()) {
@@ -225,10 +242,10 @@ public class SMSService extends Service {
 					message = "Error.";
 					break;
 				}
-				onSMSSend(success, message);
+				onSMSSend(success,smsId, message);
 			}
 			if (actionName.equals(Action.SMS_SENT_FAIL.toString())) {
-				onSMSSend(false, "Error:Empty SMS.");
+				onSMSSend(false, 0,"Error:Empty SMS.");
 			}
 			if (actionName.equals(Action.SMS_DELIVERY.toString())) {
 			}

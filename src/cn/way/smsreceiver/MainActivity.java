@@ -19,6 +19,7 @@ import android.widget.Toast;
 import cn.way.smsreceiver.SMSService.SMS;
 import cn.way.smsreceiver.SMSService.SMSSendBroadcastReceiver;
 import cn.way.smsreceiver.SMSService.SMSServiceConnection;
+import cn.way.wandroid.utils.WLog;
 
 public class MainActivity extends Activity {
 	private GridView gv;
@@ -72,7 +73,7 @@ public class MainActivity extends Activity {
 		};
 		receiver = new SMSSendBroadcastReceiver() {
 			@Override
-			public void onSMSSend(boolean success, String message) {
+			public void onSMSSend(boolean success,int smsId, String message) {
 				sendBtn.setEnabled(true);
 				sendBtn.setText("SEND");
 				Toast.makeText(getApplicationContext(), message,
