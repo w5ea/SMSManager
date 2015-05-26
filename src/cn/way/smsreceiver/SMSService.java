@@ -118,7 +118,7 @@ public class SMSService extends Service {
 		return super.onUnbind(intent);
 	}
 
-	private static final String EXTRA_SMS_ID = "smsId";
+	private static final String EXTRA_SMS_ID = "EXTRA_W5E_SMS_ID";
 	/**
 	 * 发送短信
 	 * 
@@ -133,12 +133,11 @@ public class SMSService extends Service {
 		SmsManager smsManager = SmsManager.getDefault();
 		Intent sendSmsIntent = new Intent(Action.SMS_SENT.toString());
 		sendSmsIntent.putExtra(EXTRA_SMS_ID, sms.id+"");
-//		sendSmsIntent.getExtras().putString("smsId",sms.id+"");
 		PendingIntent sentIntent = PendingIntent.getBroadcast(context, 0,
-				sendSmsIntent, 0);
+				sendSmsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		PendingIntent deliveryIntent = PendingIntent.getBroadcast(context, 0,
-				new Intent(Action.SMS_DELIVERY.toString()), 0);
+				new Intent(Action.SMS_DELIVERY.toString()), PendingIntent.FLAG_UPDATE_CURRENT);
 		List<String> messages = smsManager.divideMessage(sms.text);
 		for (String message : messages) {
 			smsManager.sendTextMessage(sms.number, null, message, sentIntent,
@@ -209,11 +208,10 @@ public class SMSService extends Service {
 			String actionName = intent.getAction();
 			WLog.d("EEEEEEEEEEEEEEEEEEEE" + actionName);
 			if (actionName.equals(Action.SMS_SENT.toString())) {
-//				int smsId = intent.getIntExtra(EXTRA_SMS_ID,0);
 				String smsIdStr = intent.getStringExtra(EXTRA_SMS_ID);
 				int smsId = 0;
 				if (smsIdStr!=null) {
-//					WLog.d("Action.SMS_SENT:::::" + smsIdStr);
+					WLog.d("Action.SMS_SENTSTR:::::" + smsIdStr);
 					try {
 						smsId = Integer.valueOf(smsIdStr);
 					} catch (NumberFormatException e) {
