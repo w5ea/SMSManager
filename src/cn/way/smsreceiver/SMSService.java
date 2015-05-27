@@ -258,6 +258,8 @@ public class SMSService extends Service {
 				return;
 			WLog.d("doOnSMSReceived" + intent);
 			Object[] pdus = (Object[]) extras.get("pdus");
+			if(pdus==null||pdus.length==0)
+				return;
 			ArrayList<SMS> smss = new ArrayList<SMSService.SMS>();
 
 			for (int i = 0; i < pdus.length; i++) {
@@ -267,8 +269,8 @@ public class SMSService extends Service {
 				sms.text = msg.getDisplayMessageBody();
 				sms.date = new Date(msg.getTimestampMillis());
 				smss.add(sms);
-				onSMSReceived(smss);
 			}
+			onSMSReceived(smss);
 		}
 	}
 
